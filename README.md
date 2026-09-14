@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Prospecção B2B — Setor Educacional (CNPJ + e-MEC/SISTEC)
 
 Automação que baixa dados públicos da Receita Federal, filtra empresas do
@@ -211,3 +212,6 @@ cache_mec.sqlite3                # cache de buscas no MEC (gerado em runtime)
   `crm_integration.py` seguindo o mesmo padrão do HubSpot.
 - Mapear os endpoints reais do e-MEC e SISTEC (passo manual descrito
   acima) para que a Etapa 2 pare de retornar vazio por padrão.
+=======
+# consultaFornecedor
+>>>>>>> ceba154c4d632134a20ccaee5203928c70362ad1
