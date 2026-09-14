@@ -1,0 +1,1 @@
+web: gunicorn optout_server:app
