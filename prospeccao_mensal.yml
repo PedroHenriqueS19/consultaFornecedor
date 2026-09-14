@@ -1,0 +1,46 @@
+# Agendamento mensal da prospecção — roda todo dia 5, às 08h (horário de Brasília).
+#
+# IMPORTANTE antes de ativar:
+#  - Os arquivos da RFB somam vários GB; runners gratuitos do GitHub Actions
+#    têm ~14GB de disco e 6h de limite por job — pode não caber dependendo
+#    do porte da base. Alternativas: runner self-hosted, ou uma VM/cron
+#    própria (ver seção "Agendamento" no README.md) se o volume for grande.
+#  - Configure os secrets do repositório se for usar --enviar-crm:
+#    CRM_PROVEDOR e CRM_API_KEY (Settings -> Secrets and variables -> Actions).
+#  - O resultado (CSV/XLSX) é publicado como "artifact" do job — para
+#    receber por e-mail/Slack automaticamente, adicione um passo de
+#    notificação ao final (ex: ação de envio de e-mail ou webhook do Slack).
+
+name: Prospecção mensal - Ensino SP
+
+on:
+  schedule:
+    - cron: "0 11 5 * *"   # 08h BRT = 11h UTC, todo dia 5
+  workflow_dispatch: {}     # permite rodar manualmente pela aba Actions
+
+jobs:
+  rodar-prospeccao:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Rodar pipeline completo
+        env:
+          CRM_PROVEDOR: ${{ secrets.CRM_PROVEDOR }}
+          CRM_API_KEY: ${{ secrets.CRM_API_KEY }}
+        run: python main.py
+
+      - name: Publicar resultado como artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: leads-educacao-sp-${{ github.run_id }}
+          path: output/*.xlsx
+          retention-days: 90

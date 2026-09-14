@@ -1,0 +1,25 @@
+# Segredos — nunca versionar
+.env
+
+# Ambiente virtual
+venv/
+env/
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Dados e artefatos gerados em runtime
+raw/
+extracted/
+output/
+checkpoints/
+logs/
+cache_mec.sqlite3
+envios_realizados.sqlite3
+
+# IDE
+.vscode/
+.idea/
